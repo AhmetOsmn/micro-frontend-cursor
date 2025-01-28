@@ -23,7 +23,16 @@
     }
   ],
   "cart": {
-    "items": [],
-    "total": 0
+    "items": [
+      {
+        "id": 1,
+        "name": "iPhone 14 Pro",
+        "price": 29999,
+        "description": "Apple iPhone 14 Pro 256GB",
+        "image": "https://picsum.photos/200/300",
+        "quantity": 1
+      }
+    ],
+    "total": 29999
   }
 }

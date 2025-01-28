@@ -2,4 +2,5 @@ packages:
   - 'shared-ui'
   - 'container'
   - 'remote1-products'
-  - 'remote2-cart' 
+  - 'remote2-cart'
+  - 'remote3-auth' 

@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Link, Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
+import Auth from './components/Auth';
 import Cart from './components/Cart';
 import Dashboard from './components/Dashboard';
 
@@ -82,62 +83,76 @@ const Navbar = () => {
           </Link>
         </div>
         
-        <Link
-          to="/cart"
-          style={{
-            background: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <Link to="/auth" style={{
             color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            cursor: 'pointer',
+            textDecoration: 'none',
+            opacity: location.pathname === '/auth' ? 1 : 0.8,
             padding: '0.5rem 1rem',
             borderRadius: '0.5rem',
-            opacity: 0.9,
-            transition: 'all 0.2s ease-in-out',
-            textDecoration: 'none',
-            backdropFilter: 'blur(8px)'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '1';
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '0.9';
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-          }}
-        >
-          <div style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center'
+            backgroundColor: location.pathname === '/auth' ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+            transition: 'all 0.2s ease-in-out'
           }}>
-            🛒
-            {cart.items.length > 0 && (
-              <span style={{
-                position: 'absolute',
-                top: -8,
-                right: -8,
-                backgroundColor: '#ef4444',
-                color: 'white',
-                borderRadius: '9999px',
-                padding: '0.2rem 0.5rem',
-                fontSize: '0.75rem',
-                minWidth: '20px',
-                height: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 'bold',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}>
-                {cart.items.length}
-              </span>
-            )}
-          </div>
-          <span>Sepet ({cart.total.toLocaleString('tr-TR')} ₺)</span>
-        </Link>
+            Giriş Yap
+          </Link>
+
+          <Link
+            to="/cart"
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              color: 'white',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              cursor: 'pointer',
+              padding: '0.5rem 1rem',
+              borderRadius: '0.5rem',
+              opacity: 0.9,
+              transition: 'all 0.2s ease-in-out',
+              textDecoration: 'none',
+              backdropFilter: 'blur(8px)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '1';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '0.9';
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            }}
+          >
+            <div style={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              🛒
+              {cart.items.length > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: -8,
+                  right: -8,
+                  backgroundColor: '#ef4444',
+                  color: 'white',
+                  borderRadius: '9999px',
+                  padding: '0.2rem 0.5rem',
+                  fontSize: '0.75rem',
+                  minWidth: '20px',
+                  height: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                }}>
+                  {cart.items.length}
+                </span>
+              )}
+            </div>
+            <span>Sepet ({cart.total.toLocaleString('tr-TR')} ₺)</span>
+          </Link>
+        </div>
       </div>
     </nav>
   );
@@ -182,6 +197,7 @@ const App = () => {
               <Route path="/" element={<Dashboard />} />
               <Route path="/products" element={<ProductsApp />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/auth/*" element={<Auth />} />
             </Routes>
           </Suspense>
         </div>
