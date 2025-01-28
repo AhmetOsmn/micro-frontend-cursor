@@ -1,0 +1,12 @@
+{
+  "name": "micro-frontend-cursor",
+  "version": "1.0.0",
+  "description": "Micro Frontend Demo with JSON Server",
+  "scripts": {
+    "start": "pnpm -r run start",
+    "server": "json-server --watch server/db.json --port 3004"
+  },
+  "devDependencies": {
+    "json-server": "^0.17.4"
+  }
+} 

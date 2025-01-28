@@ -1,0 +1,16 @@
+version: '3'
+services:
+  container:
+    build: ./container
+    ports:
+      - "3000:3000"
+    
+  remote1:
+    build: ./remote1-products
+    ports:
+      - "3001:3001"
+    
+  remote2:
+    build: ./remote2-cart
+    ports:
+      - "3002:3002" 

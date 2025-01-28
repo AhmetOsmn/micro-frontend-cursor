@@ -1,0 +1,5 @@
+packages:
+  - 'shared-ui'
+  - 'container'
+  - 'remote1-products'
+  - 'remote2-cart' 
