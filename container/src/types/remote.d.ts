@@ -10,4 +10,12 @@ declare module 'remote2/CartApp' {
     };
   }
   export const mount: MountFn;
+}
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'remote2-cart': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
+  }
 } 

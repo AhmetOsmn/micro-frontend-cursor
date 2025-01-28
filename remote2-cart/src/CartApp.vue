@@ -58,6 +58,10 @@ export default defineComponent({
         }
         const data = await response.json();
         cart.value = data;
+        // Container'a cart güncellemesini bildir
+        window.dispatchEvent(
+          new CustomEvent('cartUpdate', { detail: data })
+        );
       } catch (err) {
         error.value = err instanceof Error ? err.message : 'Bir hata oluştu';
       } finally {
@@ -87,6 +91,12 @@ export default defineComponent({
 
         cart.value.items = updatedItems;
         cart.value.total = updatedTotal;
+        // Container'a cart güncellemesini bildir
+        window.dispatchEvent(
+          new CustomEvent('cartUpdate', { 
+            detail: { items: updatedItems, total: updatedTotal }
+          })
+        );
       } catch (err) {
         error.value = err instanceof Error ? err.message : 'Bir hata oluştu';
       }

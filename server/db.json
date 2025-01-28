@@ -30,9 +30,9 @@
         "price": 49999,
         "description": "Apple MacBook Pro M2 16GB RAM",
         "image": "https://picsum.photos/200/300",
-        "quantity": 3
+        "quantity": 1
       }
     ],
-    "total": 149997
+    "total": 49999
   }
 }

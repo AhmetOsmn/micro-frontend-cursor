@@ -54,6 +54,13 @@ const ProductsApp = () => {
       if (!updateResponse.ok) {
         throw new Error('Sepet güncellenirken bir hata oluştu');
       }
+
+      // Container'a cart güncellemesini bildir
+      window.dispatchEvent(
+        new CustomEvent('cartUpdate', { 
+          detail: { items: newItems, total }
+        })
+      );
     } catch (err) {
       console.error('Sepete eklenirken hata:', err);
       alert('Ürün sepete eklenirken bir hata oluştu');
@@ -88,31 +95,160 @@ const ProductsApp = () => {
   }
 
   return (
-    <div>
-      <h2>Ürünler</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem', padding: '1rem' }}>
+    <div style={{ padding: '1rem' }}>
+      <h2 style={{
+        fontSize: '2rem',
+        fontWeight: '600',
+        color: '#1f2937',
+        marginBottom: '2rem',
+        borderBottom: '2px solid #e5e7eb',
+        paddingBottom: '0.5rem'
+      }}>Ürünler</h2>
+      
+      {loading && (
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '2rem',
+          gap: '0.5rem'
+        }}>
+          <div style={{
+            width: '1.5rem',
+            height: '1.5rem',
+            border: '2px solid #e5e7eb',
+            borderTopColor: '#3b82f6',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }}></div>
+          <span style={{ color: '#4b5563' }}>Ürünler yükleniyor...</span>
+        </div>
+      )}
+
+      {error && (
+        <div style={{
+          backgroundColor: '#fee2e2',
+          color: '#991b1b',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem'
+        }}>
+          <span>⚠️</span>
+          <span>Hata: {error}</span>
+        </div>
+      )}
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+        gap: '2rem',
+        padding: '1rem 0'
+      }}>
         {products.map((product) => (
-          <div key={product.id} style={{ border: '1px solid #ddd', padding: '1rem', borderRadius: '8px' }}>
-            <img src={product.image} alt={product.name} style={{ width: '100%', height: 'auto', borderRadius: '4px' }} />
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
-            <p style={{ fontWeight: 'bold' }}>{product.price.toLocaleString('tr-TR')} ₺</p>
-            <button 
-              onClick={() => addToCart(product)}
-              style={{
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                padding: '0.5rem 1rem',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
-            >
-              Sepete Ekle
-            </button>
+          <div key={product.id} style={{
+            border: '1px solid #e5e7eb',
+            borderRadius: '1rem',
+            overflow: 'hidden',
+            backgroundColor: 'white',
+            transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+            cursor: 'pointer'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}>
+            <div style={{
+              position: 'relative',
+              paddingTop: '75%',
+              overflow: 'hidden'
+            }}>
+              <img
+                src={product.image}
+                alt={product.name}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transition: 'transform 0.3s ease-in-out'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              />
+            </div>
+            
+            <div style={{ padding: '1.5rem' }}>
+              <h3 style={{
+                fontSize: '1.25rem',
+                fontWeight: '600',
+                color: '#1f2937',
+                marginBottom: '0.5rem'
+              }}>{product.name}</h3>
+              
+              <p style={{
+                color: '#6b7280',
+                fontSize: '0.875rem',
+                marginBottom: '1rem',
+                lineHeight: '1.5'
+              }}>{product.description}</p>
+              
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: 'auto'
+              }}>
+                <p style={{
+                  fontWeight: '600',
+                  color: '#2563eb',
+                  fontSize: '1.25rem'
+                }}>{product.price.toLocaleString('tr-TR')} ₺</p>
+                
+                <button 
+                  onClick={() => addToCart(product)}
+                  style={{
+                    backgroundColor: '#2563eb',
+                    color: 'white',
+                    border: 'none',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.5rem',
+                    cursor: 'pointer',
+                    fontWeight: '500',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    transition: 'all 0.2s ease-in-out'
+                  }}
+                >
+                  <span>🛒</span>
+                  Sepete Ekle
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
+      <style>
+        {`
+          @keyframes spin {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
