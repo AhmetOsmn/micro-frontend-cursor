@@ -24,11 +24,14 @@
         </div>
       </div>
     </div>
+    <ToastContainer />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+import { useToast } from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 
 interface CartItem {
   id: number;
@@ -49,6 +52,7 @@ export default defineComponent({
     const cart = ref<Cart>({ items: [], total: 0 });
     const loading = ref(true);
     const error = ref<string | null>(null);
+    const toast = useToast();
 
     const fetchCart = async () => {
       try {
@@ -71,34 +75,101 @@ export default defineComponent({
 
     const removeFromCart = async (productId: number) => {
       try {
-        const updatedItems = cart.value.items.filter(item => item.id !== productId);
-        const updatedTotal = updatedItems.reduce((sum, item) => sum + item.price, 0);
+        const cartResponse = await fetch('http://localhost:3004/cart');
+        const cartData = await cartResponse.json();
         
-        const response = await fetch('http://localhost:3004/cart', {
+        const newItems = cartData.items.filter((item: any) => item.id !== productId);
+        const total = newItems.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+
+        const updateResponse = await fetch('http://localhost:3004/cart', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            items: updatedItems,
-            total: updatedTotal
+            items: newItems,
+            total
           }),
         });
 
-        if (!response.ok) {
-          throw new Error('Ürün sepetten kaldırılırken bir hata oluştu');
+        if (!updateResponse.ok) {
+          throw new Error('Sepet güncellenirken bir hata oluştu');
         }
 
-        cart.value.items = updatedItems;
-        cart.value.total = updatedTotal;
-        // Container'a cart güncellemesini bildir
+        // Sepeti yeniden yükle
+        await fetchCart();
+
         window.dispatchEvent(
           new CustomEvent('cartUpdate', { 
-            detail: { items: updatedItems, total: updatedTotal }
+            detail: { items: newItems, total }
           })
         );
+
+        toast.info('Ürün sepetten kaldırıldı', {
+          timeout: 2000,
+          position: "top-right",
+        });
       } catch (err) {
-        error.value = err instanceof Error ? err.message : 'Bir hata oluştu';
+        console.error('Sepetten çıkarılırken hata:', err);
+        toast.error('Ürün sepetten çıkarılırken bir hata oluştu', {
+          timeout: 3000,
+          position: "top-right",
+        });
+      }
+    };
+
+    const updateQuantity = async (productId: number, newQuantity: number) => {
+      try {
+        if (newQuantity < 1) {
+          return removeFromCart(productId);
+        }
+
+        const cartResponse = await fetch('http://localhost:3004/cart');
+        const cartData = await cartResponse.json();
+        
+        const newItems = cartData.items.map((item: any) => {
+          if (item.id === productId) {
+            return { ...item, quantity: newQuantity };
+          }
+          return item;
+        });
+
+        const total = newItems.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+
+        const updateResponse = await fetch('http://localhost:3004/cart', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            items: newItems,
+            total
+          }),
+        });
+
+        if (!updateResponse.ok) {
+          throw new Error('Sepet güncellenirken bir hata oluştu');
+        }
+
+        // Sepeti yeniden yükle
+        await fetchCart();
+
+        window.dispatchEvent(
+          new CustomEvent('cartUpdate', { 
+            detail: { items: newItems, total }
+          })
+        );
+
+        toast.success('Ürün miktarı güncellendi', {
+          timeout: 2000,
+          position: "top-right",
+        });
+      } catch (err) {
+        console.error('Miktar güncellenirken hata:', err);
+        toast.error('Ürün miktarı güncellenirken bir hata oluştu', {
+          timeout: 3000,
+          position: "top-right",
+        });
       }
     };
 
@@ -115,6 +186,7 @@ export default defineComponent({
       loading,
       error,
       removeFromCart,
+      updateQuantity,
       formatPrice
     };
   }

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Product {
   id: number;
@@ -61,9 +63,21 @@ const ProductsApp = () => {
           detail: { items: newItems, total }
         })
       );
+      
+      toast.success(`${product.name} sepete eklendi!`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } catch (err) {
       console.error('Sepete eklenirken hata:', err);
-      alert('Ürün sepete eklenirken bir hata oluştu');
+      toast.error('Ürün sepete eklenirken bir hata oluştu', {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -96,6 +110,7 @@ const ProductsApp = () => {
 
   return (
     <div style={{ padding: '1rem' }}>
+      <ToastContainer />
       <h2 style={{
         fontSize: '2rem',
         fontWeight: '600',

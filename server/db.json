@@ -23,16 +23,7 @@
     }
   ],
   "cart": {
-    "items": [
-      {
-        "id": 2,
-        "name": "MacBook Pro",
-        "price": 49999,
-        "description": "Apple MacBook Pro M2 16GB RAM",
-        "image": "https://picsum.photos/200/300",
-        "quantity": 1
-      }
-    ],
-    "total": 49999
+    "items": [],
+    "total": 0
   }
 }
