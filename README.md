@@ -129,6 +129,27 @@ micro-frontend-cursor/
 - İşlem onayları
 - Hata yönetimi ve kullanıcı bildirimleri
 
+## 📸 Ekran Görüntüleri
+
+### Kimlik Doğrulama
+![Giriş](docs/images/login.png)
+*Kullanıcı giriş ekranı*
+
+![Kayıt](docs/images/register.png)
+*Yeni kullanıcı kayıt ekranı*
+
+### Ana Sayfa ve Ürünler
+![Ana Sayfa](docs/images/dashboard.png)
+*Dashboard ekranı ve ürün kartları*
+
+### Ürün Listesi
+![Ürünler](docs/images/products.png)
+*Ürün listesi ve sepete ekleme işlemleri*
+
+### Sepet İşlemleri
+![Sepet](docs/images/cart.png)
+*Sepet içeriği ve miktar kontrolleri*
+
 ## 🤝 Katkıda Bulunma
 
 1. Bu repo'yu fork edin

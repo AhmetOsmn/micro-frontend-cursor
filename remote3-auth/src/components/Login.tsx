@@ -68,6 +68,28 @@ const Login: React.FC = () => {
           </Form>
         )}
       </Formik>
+      <div style={{
+        marginTop: '1rem',
+        textAlign: 'center',
+        color: '#6b7280',
+        fontSize: '0.875rem'
+      }}>
+        Hesabınız yok mu?{' '}
+        <button
+          onClick={() => navigate('/auth/register')}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#2563eb',
+            cursor: 'pointer',
+            padding: 0,
+            font: 'inherit',
+            textDecoration: 'underline'
+          }}
+        >
+          Kayıt Ol
+        </button>
+      </div>
     </div>
   );
 };

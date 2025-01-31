@@ -30,7 +30,7 @@
         "price": 29999,
         "description": "Apple iPhone 14 Pro 256GB",
         "image": "https://picsum.photos/200/300",
-        "quantity": 1
+        "quantity": 3
       },
       {
         "id": 2,
@@ -49,7 +49,7 @@
         "quantity": 2
       }
     ],
-    "total": 169995
+    "total": 229993
   },
   "users": [
     {
@@ -63,6 +63,12 @@
       "email": "ahmet@gmail.com",
       "password": "123456",
       "id": 2
+    },
+    {
+      "name": "test",
+      "email": "test@test.com",
+      "password": "123456",
+      "id": 3
     }
   ]
 }
