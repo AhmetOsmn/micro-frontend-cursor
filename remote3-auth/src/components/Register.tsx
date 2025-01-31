@@ -1,7 +1,9 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { register } from '../services/authService';
 import { RegisterFormData } from '../types';
 
 const registerSchema = Yup.object().shape({
@@ -19,13 +21,15 @@ const registerSchema = Yup.object().shape({
 });
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = async (values: RegisterFormData) => {
     try {
-      // API çağrısı burada yapılacak
-      console.log('Register values:', values);
+      await register(values);
       toast.success('Kayıt başarılı!');
+      navigate('/');
     } catch (error) {
-      toast.error('Kayıt başarısız oldu. Lütfen tekrar deneyin.');
+      toast.error(error instanceof Error ? error.message : 'Kayıt başarısız oldu. Lütfen tekrar deneyin.');
     }
   };
 

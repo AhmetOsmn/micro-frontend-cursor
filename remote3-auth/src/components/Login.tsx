@@ -1,7 +1,9 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+import { login } from '../services/authService';
 import { LoginFormData } from '../types';
 
 const loginSchema = Yup.object().shape({
@@ -14,13 +16,15 @@ const loginSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = async (values: LoginFormData) => {
     try {
-      // API çağrısı burada yapılacak
-      console.log('Login values:', values);
+      await login(values);
       toast.success('Giriş başarılı!');
+      navigate('/');
     } catch (error) {
-      toast.error('Giriş başarısız oldu. Lütfen tekrar deneyin.');
+      toast.error(error instanceof Error ? error.message : 'Giriş başarısız oldu. Lütfen tekrar deneyin.');
     }
   };
 

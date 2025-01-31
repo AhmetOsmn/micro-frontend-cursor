@@ -8,7 +8,9 @@ module.exports = {
   mode: 'development',
   devServer: {
     port: 3000,
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: 'index.html'
+    },
     hot: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -16,6 +18,7 @@ module.exports = {
   },
   output: {
     publicPath: 'http://localhost:3000/',
+    filename: '[name].[contenthash].js',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -46,17 +49,17 @@ module.exports = {
       shared: {
         react: { 
           singleton: true,
-          eager: false,
+          eager: true,
           requiredVersion: false
         },
         'react-dom': { 
           singleton: true,
-          eager: false,
+          eager: true,
           requiredVersion: false
         },
         'react-router-dom': {
           singleton: true,
-          eager: false,
+          eager: true,
           requiredVersion: false
         }
       },

@@ -30,9 +30,31 @@
         "price": 29999,
         "description": "Apple iPhone 14 Pro 256GB",
         "image": "https://picsum.photos/200/300",
+        "quantity": 3
+      },
+      {
+        "id": 2,
+        "name": "MacBook Pro",
+        "price": 49999,
+        "description": "Apple MacBook Pro M2 16GB RAM",
+        "image": "https://picsum.photos/200/300",
         "quantity": 1
       }
     ],
-    "total": 29999
-  }
+    "total": 139996
+  },
+  "users": [
+    {
+      "id": 1,
+      "name": "Test User",
+      "email": "test@example.com",
+      "password": "123456"
+    },
+    {
+      "name": "ahmet",
+      "email": "ahmet@gmail.com",
+      "password": "123456",
+      "id": 2
+    }
+  ]
 }
