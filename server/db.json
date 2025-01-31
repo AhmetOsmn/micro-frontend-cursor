@@ -30,18 +30,10 @@
         "price": 29999,
         "description": "Apple iPhone 14 Pro 256GB",
         "image": "https://picsum.photos/200/300",
-        "quantity": 3
-      },
-      {
-        "id": 2,
-        "name": "MacBook Pro",
-        "price": 49999,
-        "description": "Apple MacBook Pro M2 16GB RAM",
-        "image": "https://picsum.photos/200/300",
-        "quantity": 1
+        "quantity": 5
       }
     ],
-    "total": 139996
+    "total": 149995
   },
   "users": [
     {

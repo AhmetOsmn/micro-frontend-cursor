@@ -26,7 +26,7 @@ const ProductsApp = () => {
       let newItems = [];
       
       if (existingItemIndex >= 0) {
-        // Ürün sepette varsa miktarını artır
+        // Ürün sepette varsa miktarını 1 artır
         newItems = cartData.items.map((item: any, index: number) => {
           if (index === existingItemIndex) {
             return { ...item, quantity: item.quantity + 1 };
@@ -34,7 +34,7 @@ const ProductsApp = () => {
           return item;
         });
       } else {
-        // Ürün sepette yoksa yeni ekle
+        // Ürün sepette yoksa quantity 1 olarak ekle
         newItems = [...(cartData.items || []), { ...product, quantity: 1 }];
       }
 
@@ -232,7 +232,10 @@ const ProductsApp = () => {
                 }}>{product.price.toLocaleString('tr-TR')} ₺</p>
                 
                 <button 
-                  onClick={() => addToCart(product)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product);
+                  }}
                   style={{
                     backgroundColor: '#2563eb',
                     color: 'white',
@@ -248,7 +251,7 @@ const ProductsApp = () => {
                   }}
                 >
                   <span>🛒</span>
-                  Sepete Ekle
+                  <span>Sepete Ekle</span>
                 </button>
               </div>
             </div>

@@ -15,6 +15,22 @@
             <p>{{ item.description }}</p>
             <p class="price">{{ formatPrice(item.price) }} ₺</p>
           </div>
+          <div class="quantity-controls">
+            <button 
+              @click="updateQuantity(item.id, item.quantity - 1)"
+              :disabled="item.quantity <= 1"
+              class="quantity-button"
+            >
+              -
+            </button>
+            <span class="quantity">{{ item.quantity }}</span>
+            <button 
+              @click="updateQuantity(item.id, item.quantity + 1)"
+              class="quantity-button"
+            >
+              +
+            </button>
+          </div>
           <button @click="removeFromCart(item.id)" class="remove-button">
             Kaldır
           </button>
@@ -253,5 +269,30 @@ export default defineComponent({
   text-align: center;
   padding: 2rem;
   color: #666;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.quantity-button {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.quantity-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity {
+  min-width: 2rem;
+  text-align: center;
 }
 </style> 

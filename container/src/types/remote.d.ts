@@ -4,6 +4,20 @@ declare module 'remote1/ProductsApp' {
 }
 
 declare module 'remote2/CartApp' {
+  interface CartItem {
+    id: number;
+    name: string;
+    price: number;
+    description: string;
+    image: string;
+    quantity: number;
+  }
+
+  interface Cart {
+    items: CartItem[];
+    total: number;
+  }
+
   interface MountFn {
     (el: HTMLElement): {
       unmount(): void;
@@ -17,6 +31,14 @@ declare global {
     interface IntrinsicElements {
       'remote2-cart': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     }
+  }
+}
+
+declare global {
+  interface CustomEventMap {
+    'cartUpdate': CustomEvent<Cart>;
+    'addToCart': CustomEvent<CartItem>;
+    'updateCartItem': CustomEvent<{ id: number; quantity: number }>;
   }
 }
 

@@ -22,7 +22,7 @@ const Login: React.FC = () => {
     try {
       await login(values);
       toast.success('Giriş başarılı!');
-      navigate('/');
+      window.location.href = '/';
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Giriş başarısız oldu. Lütfen tekrar deneyin.');
     }

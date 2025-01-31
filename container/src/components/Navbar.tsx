@@ -52,6 +52,21 @@ const Navbar: React.FC = () => {
           }}>
             🛍️ MicroShop
           </Link>
+          {user && (
+            <Link to="/products" style={{
+              color: 'white',
+              textDecoration: 'none',
+              padding: '0.5rem 1rem',
+              borderRadius: '0.5rem',
+              backgroundColor: location.pathname === '/products' ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+              transition: 'all 0.2s ease-in-out',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}>
+              📦 Ürünler
+            </Link>
+          )}
         </div>
         
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

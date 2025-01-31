@@ -4,6 +4,7 @@ import { AuthProvider } from 'remote3/AuthContext';
 import { ProtectedRoute } from 'remote3/ProtectedRoute';
 import Auth from './components/Auth';
 import Cart from './components/Cart';
+import Dashboard from './components/Dashboard';
 import Navbar from './components/Navbar';
 
 const ProductsApp = React.lazy(() => import('remote1/ProductsApp'));
@@ -29,6 +30,14 @@ const App = () => {
                 <Route path="/auth/*" element={<Auth />} />
                 <Route
                   path="/"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/products"
                   element={
                     <ProtectedRoute>
                       <ProductsApp />
