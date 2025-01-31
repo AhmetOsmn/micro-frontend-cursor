@@ -31,7 +31,7 @@
               +
             </button>
           </div>
-          <button @click="removeFromCart(item.id)" class="remove-button">
+          <button @click="showRemoveConfirmation(item)" class="remove-button">
             Kaldır
           </button>
         </div>
@@ -40,6 +40,13 @@
         </div>
       </div>
     </div>
+    <ConfirmModal
+      :show="showModal"
+      title="Ürünü Kaldır"
+      :message="modalMessage"
+      @confirm="handleConfirmRemove"
+      @cancel="handleCancelRemove"
+    />
     <ToastContainer />
   </div>
 </template>
@@ -48,6 +55,7 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import ConfirmModal from './components/ConfirmModal.vue';
 
 interface CartItem {
   id: number;
@@ -55,6 +63,7 @@ interface CartItem {
   price: number;
   description: string;
   image: string;
+  quantity: number;
 }
 
 interface Cart {
@@ -64,29 +73,35 @@ interface Cart {
 
 export default defineComponent({
   name: 'CartApp',
+  components: {
+    ConfirmModal
+  },
   setup() {
     const cart = ref<Cart>({ items: [], total: 0 });
     const loading = ref(true);
     const error = ref<string | null>(null);
     const toast = useToast();
+    const showModal = ref(false);
+    const modalMessage = ref('');
+    const selectedItem = ref<CartItem | null>(null);
 
-    const fetchCart = async () => {
-      try {
-        const response = await fetch('http://localhost:3004/cart');
-        if (!response.ok) {
-          throw new Error('Sepet yüklenirken bir hata oluştu');
-        }
-        const data = await response.json();
-        cart.value = data;
-        // Container'a cart güncellemesini bildir
-        window.dispatchEvent(
-          new CustomEvent('cartUpdate', { detail: data })
-        );
-      } catch (err) {
-        error.value = err instanceof Error ? err.message : 'Bir hata oluştu';
-      } finally {
-        loading.value = false;
+    const showRemoveConfirmation = (item: CartItem) => {
+      selectedItem.value = item;
+      modalMessage.value = `${item.name} ürününü sepetten kaldırmak istediğinize emin misiniz?`;
+      showModal.value = true;
+    };
+
+    const handleConfirmRemove = async () => {
+      if (selectedItem.value) {
+        await removeFromCart(selectedItem.value.id);
       }
+      showModal.value = false;
+      selectedItem.value = null;
+    };
+
+    const handleCancelRemove = () => {
+      showModal.value = false;
+      selectedItem.value = null;
     };
 
     const removeFromCart = async (productId: number) => {
@@ -121,7 +136,7 @@ export default defineComponent({
           })
         );
 
-        toast.info('Ürün sepetten kaldırıldı', {
+        toast.success('Ürün sepetten kaldırıldı', {
           timeout: 2000,
           position: "top-right",
         });
@@ -131,6 +146,25 @@ export default defineComponent({
           timeout: 3000,
           position: "top-right",
         });
+      }
+    };
+
+    const fetchCart = async () => {
+      try {
+        const response = await fetch('http://localhost:3004/cart');
+        if (!response.ok) {
+          throw new Error('Sepet yüklenirken bir hata oluştu');
+        }
+        const data = await response.json();
+        cart.value = data;
+        // Container'a cart güncellemesini bildir
+        window.dispatchEvent(
+          new CustomEvent('cartUpdate', { detail: data })
+        );
+      } catch (err) {
+        error.value = err instanceof Error ? err.message : 'Bir hata oluştu';
+      } finally {
+        loading.value = false;
       }
     };
 
@@ -201,9 +235,14 @@ export default defineComponent({
       cart,
       loading,
       error,
+      showModal,
+      modalMessage,
       removeFromCart,
       updateQuantity,
-      formatPrice
+      formatPrice,
+      showRemoveConfirmation,
+      handleConfirmRemove,
+      handleCancelRemove
     };
   }
 });

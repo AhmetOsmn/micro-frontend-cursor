@@ -10,6 +10,7 @@ Proje aşağıdaki mikro frontend'lerden oluşmaktadır:
   - Diğer mikro frontend'leri birleştirir
   - Routing ve navigasyon yönetimi
   - Global durum yönetimi (sepet durumu)
+  - Kullanıcı oturum yönetimi
 
 - **Products (Ürünler)**: React tabanlı ürün listesi uygulaması
   - Ürün kataloğu görüntüleme
@@ -18,11 +19,19 @@ Proje aşağıdaki mikro frontend'lerden oluşmaktadır:
 
 - **Cart (Sepet)**: Vue.js tabanlı sepet uygulaması
   - Sepet içeriği görüntüleme
-  - Ürün kaldırma
+  - Ürün miktarı güncelleme
+  - Ürün kaldırma (onay modali ile)
   - Toplam fiyat hesaplama
+
+- **Auth (Kimlik Doğrulama)**: React tabanlı auth uygulaması
+  - Kullanıcı girişi
+  - Kullanıcı kaydı
+  - Oturum yönetimi
+  - Korumalı rotalar
 
 - **Backend**: JSON Server tabanlı mock API (`localhost:3004`)
   - Ürün ve sepet verilerinin yönetimi
+  - Kullanıcı verilerinin yönetimi
   - RESTful API endpoints
 
 ## 🚀 Başlangıç
@@ -51,6 +60,10 @@ Proje aşağıdaki mikro frontend'lerden oluşmaktadır:
    # Cart
    cd remote2-cart
    pnpm start
+
+   # Auth
+   cd remote3-auth
+   pnpm start
    ```
 
 ## 🛠️ Teknolojiler
@@ -62,6 +75,9 @@ Proje aşağıdaki mikro frontend'lerden oluşmaktadır:
   - React Router
   - Module Federation
   - Webpack 5
+  - React Toastify
+  - Vue Toastification
+  - Formik & Yup
 
 - **Backend**:
   - JSON Server
@@ -71,9 +87,12 @@ Proje aşağıdaki mikro frontend'lerden oluşmaktadır:
 
 Mikro frontend'ler arası iletişim aşağıdaki yöntemlerle sağlanmaktadır:
 
-1. **Custom Events**: Sepet güncellemeleri için
-2. **Module Federation**: Mikro frontend'lerin paylaşımı için
-3. **REST API**: Veri yönetimi için
+1. **Custom Events**: 
+   - Sepet güncellemeleri
+   - Kullanıcı oturum durumu değişiklikleri
+2. **Module Federation**: Mikro frontend'lerin paylaşımı
+3. **Context API**: Auth durumu yönetimi
+4. **REST API**: Veri yönetimi
 
 ## 📦 Proje Yapılandırması
 
@@ -82,6 +101,7 @@ micro-frontend-cursor/
 ├── container/           # Ana uygulama (React)
 ├── remote1-products/    # Ürünler uygulaması (React)
 ├── remote2-cart/        # Sepet uygulaması (Vue.js)
+├── remote3-auth/        # Kimlik doğrulama uygulaması (React)
 ├── shared-ui/          # Paylaşılan UI bileşenleri
 └── server/             # Mock API (JSON Server)
 ```
@@ -94,6 +114,20 @@ micro-frontend-cursor/
 - Gerçek zamanlı sepet güncellemeleri
 - TypeScript ile tip güvenliği
 - Modüler ve ölçeklenebilir mimari
+- Kullanıcı kimlik doğrulama sistemi
+- Korumalı rotalar
+- Sepet işlemleri için onay modalleri
+- Kullanıcı dostu bildirimler
+- Ürün miktarı yönetimi
+- Dinamik fiyat hesaplaması
+
+## 🔒 Güvenlik Özellikleri
+
+- Korumalı rotalar ile yetkisiz erişim engelleme
+- Oturum yönetimi
+- Güvenli form doğrulama
+- İşlem onayları
+- Hata yönetimi ve kullanıcı bildirimleri
 
 ## 🤝 Katkıda Bulunma
 
