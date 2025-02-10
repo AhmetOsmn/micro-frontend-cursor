@@ -43,8 +43,7 @@ Proje aşağıdaki mikro frontend'lerden oluşmaktadır:
 
 2. Backend servisini başlatın:
    ```bash
-   cd server
-   pnpm start
+   pnpm run server
    ```
 
 3. Mikro frontend'leri başlatın:
